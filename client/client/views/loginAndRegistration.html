@@ -26,14 +26,19 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
           
           var email = $('#email').val();
           var password = $('#password').val();
-          if (email.length > 0 && password.length > 0){
+          
+          if(password.length < 6){
+             var errorMessage = "Password must be logner than 6 characters";
+              $('#error').html(errorMessage);
+          }
+          else if (email.length > 0 && password.length > 0){
               Promise.resolve()
               .then(function(){
-                  return $.post('login.php', 'type=signin' + '&email=' + email + '&password=' + password);
+                  return $.post('/server/login.php', 'type=signin' + '&email=' + email + '&password=' + password);
               })
-          .then(function(auth){
+             .then(function(auth){
                   if (auth.isValid){
-                      window.location.replace('welcome.php');
+                      window.location.replace('welcome.html');
                   } else {
                     $('#error').html('Invalid email or password!');
                   }
@@ -58,10 +63,14 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
               var errorMessage = "Confirm password does not match password";
               $('#generalErr').html(errorMessage);
             }
+            else if (passwordField.length < 6){
+              var errorMessage = "Password must be logner than 6 characters";
+              $('#generalErr').html(errorMessage);
+            }
             else{
               Promise.resolve()
                .then(function(){
-                    return $.post('login.php', 
+                    return $.post('/server/login.php', 
                    'type=register' + 
                    '&displayName=' + firstNameField+ ' ' + lastNameField + 
                    '&firstName=' + firstNameField +  
@@ -76,11 +85,11 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
                    if (auth.isValid){
                       $('#toggle').addClass('hide');
                       $('#registerSuccess').html('Account created successfully!<br>');
-                      $.post('login.php', 'type=signin' + '&email=' + emailField + '&password=' + passwordField)
+                      $.post('/server/login.php', 'type=signin' + '&email=' + emailField + '&password=' + passwordField)
                      .done( (auth) => {
                           if(auth.isValid) {
                           $('#registerSuccess').append('Proceeding to site')
-                          setTimeout(window.location.replace('welcome.php'), 3000);
+                          setTimeout(window.location.replace('welcome.html'), 3000);
                           }
                       })
                    }

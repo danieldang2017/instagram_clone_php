@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+   <head>
+    <meta charset="UTF-8" />
+    <title>Welcome Page</title>
+     <!-- Adds JQuery -->
+  <script src="../js/jquery-3.2.1.min.js"></script>
+   <script type="text/javascript">
+       /*global $*/
+       function checkSession(){
+         Promise.resolve()
+         .then(function(){
+             return  $.post ('/server/session.php', 'type=checkSession');
+         })
+         
+         .then(function(auth){
+              if(auth.isValid) {
+                    window.location.replace('sessionTrue.html');
+                }
+                    else
+                    {
+                    window.location.replace('sessionFalse.html');
+                    var b = 0;
+                }
+         })
+       }
+    </script>
+    
+   </head>
+   <body onload="checkSession()">
+      <h1>Welcome</h1> 
+   </body>
+   
+</html>
