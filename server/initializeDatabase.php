@@ -1,5 +1,5 @@
 <?php 
-    include connectToServer.php;
+    include ('connectToServer.php');
     
     // Create tables if not already existed
     $sqlQuery = file_get_contents('../sql/createUsers.sql');
