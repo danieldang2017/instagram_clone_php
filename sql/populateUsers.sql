@@ -1,0 +1,5 @@
+INSERT INTO Users(displayName,userName,email,password,imageProfile,firstName,lastName,createdDate) VALUES ("Instagram","instagram","hieutrantvvn2006@gmail.com","123456","instagram.jpg","Instagram","",NOW());
+INSERT INTO Users(displayName,userName,email,password,imageProfile,firstName,lastName,createdDate) VALUES ("Selena Gomez","selenagomez","selenagomez@gmail.com","123456","selenagomez.jpg","Selena","Gomez",NOW());
+INSERT INTO Users(displayName,userName,email,password,imageProfile,firstName,lastName,createdDate) VALUES ("Ariana Grande","arianagrande","arianagrande@gmail.com","123456","arianagrande.jpg","Ariana","Grande",NOW());
+INSERT INTO Users(displayName,userName,email,password,imageProfile,firstName,lastName,createdDate) VALUES ("Cristiano Ronaldo","cristiano","cristiano@gmail.com","123456","cristiano.jpg","Cristiano","Ronaldo",NOW());
+INSERT INTO Users(displayName,userName,email,password,imageProfile,firstName,lastName,createdDate) VALUES ("Justin Bieber","justinbieber","justinbieber@gmail.com","123456","justinbieber.jpg","Justin","Bieber",NOW());

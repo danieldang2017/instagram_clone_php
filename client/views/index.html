@@ -34,13 +34,13 @@ Duncan Robertson. Student number: 8074833 -->
       function loadPage() {
         Promise.resolve()
         .then(() => {
-          return $.post('getUserProfile');
+          return $.post('getUserProfile.php');
         })
         .then((post) => {
           setUserProfile(post);
         })
         .then(() => {
-          return $.post('getTopProfiles', {max: 3});
+          return $.post('/getTopProfiles.php');
         })
         .then((posts) => {
           setTopProfiles(posts);
