@@ -5,5 +5,5 @@
         exit();
     }
     
-    Redirect('/client/views/index.html', false);
+    Redirect('/client/views/loginAndRegistration.html', false);
 ?>
