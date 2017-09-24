@@ -32,6 +32,7 @@ Duncan Robertson. Student number: 8074833 -->
     /*global $*/
       // Function to load the contents of the page
       function loadPage() {
+        
         Promise.resolve()
         /*.then(() => {
           return $.post('getUserProfile.php');
@@ -40,7 +41,7 @@ Duncan Robertson. Student number: 8074833 -->
           setUserProfile(post);
         })*/
         .then(() => {
-          return $.post('getTopProfiles.php');
+          return $.post('/server/getTopProfiles.php');
         })
         .then((posts) => {
           setTopProfiles(posts);
@@ -65,7 +66,7 @@ Duncan Robertson. Student number: 8074833 -->
           <div class="gallery_upper">\
             <img src="" height="50px" class="profile" id="userProfileImage">\
             <h4>\
-            <a href="/postList?id='+userProfile.ID+'" style="text-decoration: none; font-size: 25px;color: aliceblue;"><span id="userProfileUsername"></span></a> \
+            <a href="/client/views/postList.html?id='+userProfile.ID+'" style="text-decoration: none; font-size: 25px;color: aliceblue;"><span id="userProfileUsername"></span></a> \
               <img alt="verified" src="../img/icons/icon4.png">\
               <p id="userProfileFullName"></p>\
             </h4>\
@@ -127,7 +128,7 @@ Duncan Robertson. Student number: 8074833 -->
           <div class="gallery_upper">\
             <img src="" height="50px" class="profile" id="topProfileImage' + i + '">\
             <h4>\
-            <a href="/postList?id='+topProfiles[i].ID+'" style="text-decoration: none; font-size: 25px;color: aliceblue;"><span id="topProfileUsername' + i + '"></span></a> \
+            <a href="/client/views/postList.html?id='+topProfiles[i].ID+'" style="text-decoration: none; font-size: 25px;color: aliceblue;"><span id="topProfileUsername' + i + '"></span></a> \
               <img alt="verified" src="../img/icons/icon4.png">\
               <p id="topProfileFullName' + i + '"></p>\
             </h4>\
@@ -173,7 +174,7 @@ Duncan Robertson. Student number: 8074833 -->
       function setPostsContent(id, j, check){
         Promise.resolve()
         .then(() => {
-          return $.post('getPostsContent.php', {id: id, max: 4});
+          return $.post('/server/getPostsContent.php', {id: id, max: 4});
         })
         .then((posts) => {
           var postsContent = posts;
@@ -279,7 +280,7 @@ Duncan Robertson. Student number: 8074833 -->
       // Check whether the user is followed or not in order to display following button
       function isFollow(followButtonID, followUserID)
       {
-        Promise.resolve()
+        /*Promise.resolve()
          .then(function(){
             return $.post('isFollow', {followId : followUserID});
           })
@@ -289,7 +290,7 @@ Duncan Robertson. Student number: 8074833 -->
           {
              $('#' + followButtonID).html('Following');
           }
-        })
+        })*/
       }
     </script>
   </head>

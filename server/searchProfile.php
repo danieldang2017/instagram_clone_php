@@ -10,11 +10,16 @@
         
         // set the PDO error mode to exception
         $mySQLConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected successfully"; 
     }
     catch(PDOException $e)
     {
-        // Notify connection errors
-        echo "Connection failed: " . $e->getMessage();
     }
+    $id = $_POST['user'];
+    $sqlQuery = $mySQLConnection->prepare("SELECT * FROM Users WHERE ID = $id");
+    $sqlQuery->execute();
+    
+    $response = $sqlQuery->fetchAll();
+    
+    echo json_encode($response);
+    header("Content-type:application/json");
 ?>

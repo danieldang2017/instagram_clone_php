@@ -1,6 +1,8 @@
 <?php
     include("connectToServer.php");
-    $sqlQuery = $mySQLConnection->prepare("SELECT * FROM Users ORDER BY followersCount DESC LIMIT 3");
+    $id = $_POST['id'];
+    $max = $_POST['max'];
+    $sqlQuery = $mySQLConnection->prepare("SELECT * FROM Posts WHERE user=$id ORDER BY createdDate DESC LIMIT 4");
     $sqlQuery->execute();
     
     $response = $sqlQuery->fetchAll();

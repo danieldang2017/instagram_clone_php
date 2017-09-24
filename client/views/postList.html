@@ -34,7 +34,7 @@ Duncan Robertson. Student number: 8074833 -->
         var id = window.location.href.split("=")[1];
         Promise.resolve()
         .then(() => {
-          return $.post('searchProfile', {user: id});
+          return $.post('/server/searchProfile.php', {user: id});
         })
         .then((post) => {
           setUserProfile(post);
@@ -43,7 +43,7 @@ Duncan Robertson. Student number: 8074833 -->
       
       // Function to set the user profile
       function setUserProfile(post){
-        var userProfile = post;
+        var userProfile = post[0];
         $('#displayName').html(userProfile.displayName);
         $('#profileImage').attr("src","../img/profile_img/" + userProfile.imageProfile);
         $('#postCount').html(userProfile.postsCount);
@@ -59,12 +59,12 @@ Duncan Robertson. Student number: 8074833 -->
           <div class="gallery_upper">\
             <img src="" height="50px" class="profile" id="userProfileImage">\
             <h4>\
-            <a href="/postList?id='+userProfile._id+'" style="text-decoration: none; font-size: 25px;color: aliceblue;"><span id="userProfileUsername"></span></a> \
+            <a href="/client/views/postList.html?id='+userProfile.ID+'" style="text-decoration: none; font-size: 25px;color: aliceblue;"><span id="userProfileUsername"></span></a> \
               <img alt="verified" src="../img/icons/icon4.png">\
               <p id="userProfileFullName"></p>\
             </h4>\
           </div>\
-          <div id="postContainer' + userProfile._id + '">\
+          <div id="postContainer' + userProfile.ID + '">\
           </div>\
         </div>');
         addUserPosts(userProfile);
@@ -80,20 +80,20 @@ Duncan Robertson. Student number: 8074833 -->
       // Function to add user Recent Posts html to Post Container
       function addUserPosts(userProfile){
         for (var j = 0; j < userProfile.postsCount; j++) {
-          $('#postContainer' + userProfile._id).append('<div class="thumbnail">\
-              <a href="" id="link' + userProfile._id + j + '">\
-                <img src="" class="cards" id="thumbnail' + userProfile._id + j +'"/>\
+          $('#postContainer' + userProfile.ID).append('<div class="thumbnail">\
+              <a href="" id="link' + userProfile.ID + j + '">\
+                <img src="" class="cards" id="thumbnail' + userProfile.ID + j +'"/>\
               </a>\
               <h4>\
-                <img src="../img/icons/icon2.png" id="like' + userProfile._id + j +'"  height="15px" alt="Likes">\
-                <i id="popularity' + userProfile._id + j +'"></i>\
-                <img src="../img/icons/icon5.png" id="feedback' + userProfile._id + j +'"  height="15px" alt="Feedbacks">\
-                <i id="feedbackCount' + userProfile._id + j +'"></i>\
+                <img src="../img/icons/icon2.png" id="like' + userProfile.ID + j +'"  height="15px" alt="Likes">\
+                <i id="popularity' + userProfile.ID + j +'"></i>\
+                <img src="../img/icons/icon5.png" id="feedback' + userProfile.ID + j +'"  height="15px" alt="Feedbacks">\
+                <i id="feedbackCount' + userProfile.ID + j +'"></i>\
               </h4>\
-              <p class="text_column" id="status' + userProfile._id + j +'"></p>\
-              <p class="tag" id="hastag' + userProfile._id + j +'"></p>\
+              <p class="text_column" id="status' + userProfile.ID + j +'"></p>\
+              <p class="tag" id="hastag' + userProfile.ID + j +'"></p>\
             </div>');
-          setPostsContent(userProfile._id, j, userProfile.postsCount);
+          setPostsContent(userProfile.ID, j, userProfile.postsCount);
         }
       }
     
@@ -101,14 +101,14 @@ Duncan Robertson. Student number: 8074833 -->
       function setPostsContent(id, j, max){
         Promise.resolve()
         .then(() => {
-          return $.post('getPostsContent', {id: id, max: max});
+          return $.post('/server/getPostsContent.php', {id: id, max: max});
         })
         .then((posts) => {
           var postsContent = posts;
-          $("#link" + id + j).attr('href', '/post/' + postsContent[j]._id);
+          $("#link" + id + j).attr('href', '/post/' + postsContent[j].ID);
           $('#thumbnail' + id + j).attr("src","../img/instagram_img/" + postsContent[j].image);
          
-          var postid = postsContent[j]._id;
+          var postid = postsContent[j].ID;
           var likeCountTag = "popularity" + id + j;
           
           var likeIconIDTag = "like" + id + j;
