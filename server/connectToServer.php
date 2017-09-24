@@ -10,11 +10,8 @@
         
         // set the PDO error mode to exception
         $mySQLConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //echo "Connected successfully"; 
     }
     catch(PDOException $e)
     {
-        // Notify connection errors
-        echo "Connection failed: " . $e->getMessage();
     }
 ?>
