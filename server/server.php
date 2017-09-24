@@ -6,19 +6,18 @@
      
       $type = mysqli_real_escape_string($db,$_POST['type']); 
       $PostID = mysqli_real_escape_string($db,$_POST['id']); 
+      $FollowID = mysqli_real_escape_string($db,$_POST['followid']); 
+   
+      // Find User from session
+      // $user_check = $_SESSION['login_user']; // Update when haveing login
+      $user_check = "hieutrantvvn2006@gmail.com";
+     // get user ID
+      $sql = "select * from Users where email= '$user_check'";
+      $result = mysqli_query($db,$sql);
+      $row = $result->fetch_assoc();
+      $UserID = $row["ID"];
+      
       if ($type == 'increLike'){
-           
-         
-            // Find User from session
-           //    $user_check = $_SESSION['login_user']; // Update when haveing login
-           $user_check = "hieutrantvvn2006@gmail.com";
-         
-            // get user ID
-            $sql = "select * from Users where email= '$user_check'";
-            $result = mysqli_query($db,$sql);
-            $row = $result->fetch_assoc();
-            $UserID = $row["ID"];
-            
             // Check Like exists
             $sql = "select * from Likes where user = '$UserID' and post = '$PostID'";
             $result = mysqli_query($db,$sql);
@@ -76,20 +75,9 @@
       }
       
       else if ($type == 'isLike'){
-            
-            // Find User from session
-           //    $user_check = $_SESSION['login_user']; // Update when haveing login
-           $user_check = "hieutrantvvn2006@gmail.com";
-         
-            // get user ID
-            $sql = "select * from Users where email= '$user_check'";
-            $result = mysqli_query($db,$sql);
-            $row = $result->fetch_assoc();
-            $UserID = $row["ID"];
-            
             //Check Like
             $sql = "select * from Likes where user = '$UserID' and post = '$PostID'";
-             $result = mysqli_query($db,$sql);
+            $result = mysqli_query($db,$sql);
             if($result->num_rows > 0){
                 header( "Content-type: application/json" );
                 $jsonAnswer = array('result' => true);
@@ -99,6 +87,74 @@
                 header( "Content-type: application/json" );
                 $jsonAnswer = array('result' => false);
                 echo json_encode($jsonAnswer);
+            }
+      }
+      else if ($type == 'incrFollow'){
+               // Check Follow exists
+            $sql = "select * from Follows where followingUser = '$UserID' and followedUser = '$FollowID'";
+            $result = mysqli_query($db,$sql);
+            $row = $result->fetch_assoc();
+            
+            // Increase Follower and Following 
+            if ($result->num_rows == 0) {
+               
+               $sql = "update Users set followingCount = followingCount + 1 where ID = '$UserID';";
+               $result = mysqli_query($db,$sql);
+               
+               $sql = "update Users set followersCount = followersCount + 1 where ID = '$FollowID';";
+               $result = mysqli_query($db,$sql);
+               
+              $sql = "select * from Users where ID = '$UserID'";
+              $result = mysqli_query($db,$sql);
+              $row = $result->fetch_assoc();
+              $CurrentFollowingCount = $row["followingCount"];
+              
+              // insert the new Follow record
+               $sql = "insert into Follows ( followingUser, followedUser, followDate) values ('$UserID', '$FollowID', now());";
+              $result = mysqli_query($db,$sql);
+              
+              if($result){
+                    header( "Content-type: application/json" );
+                    $jsonAnswer = array('result' => true, 'id' => $FollowID, 'followingCount' => $CurrentFollowingCount);
+                    echo json_encode($jsonAnswer);
+               }
+            }
+            // Decrease Follower and Following 
+            else {
+               $sql = "update Users set followingCount = followingCount - 1 where ID = '$UserID';";
+               $result = mysqli_query($db,$sql);
+               
+               $sql = "update Users set followersCount = followersCount - 1 where ID = '$FollowID';";
+               $result = mysqli_query($db,$sql);
+               
+              $sql = "select * from Users where ID = '$UserID'";
+              $result = mysqli_query($db,$sql);
+              $row = $result->fetch_assoc();
+              $CurrentFollowingCount = $row["followingCount"];
+              
+              // Delete Follow record
+              $sql = "Delete from Follows where followingUser = '$UserID' and followedUser = '$FollowID'";
+              $result = mysqli_query($db,$sql);
+              
+             if($result){
+                    header( "Content-type: application/json" );
+                    $jsonAnswer = array('result' => false, 'id' => $FollowID, 'followingCount' => $CurrentFollowingCount);
+                    echo json_encode($jsonAnswer);
+               }
+           }
+      }
+      else if ($type == 'isFollow'){
+            $sql = "select * from Follows where followingUser = '$UserID' and followedUser = '$FollowID'";
+            $result = mysqli_query($db,$sql);
+            if ($result->num_rows == 0) {
+                  header( "Content-type: application/json" );
+                  $jsonAnswer = array('result' => false);
+                  echo json_encode($jsonAnswer);
+            }
+            else {
+                 header( "Content-type: application/json" );
+                  $jsonAnswer = array('result' => true);
+                  echo json_encode($jsonAnswer);
             }
       }
    }

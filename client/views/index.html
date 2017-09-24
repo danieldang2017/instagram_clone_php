@@ -256,7 +256,8 @@ Duncan Robertson. Student number: 8074833 -->
         console.log(followUserID);
         Promise.resolve()
         .then(function(){
-              return $.post('incrFollow', {followid : followUserID});
+         //     return $.post('incrFollow', {followid : followUserID});
+              return $.post('/server/server.php', 'type=incrFollow' + '&followid=' + followUserID);
           })
           .then(function(user){
               if (user.followingCount > 0)
@@ -281,17 +282,18 @@ Duncan Robertson. Student number: 8074833 -->
       // Check whether the user is followed or not in order to display following button
       function isFollow(followButtonID, followUserID)
       {
-        /*Promise.resolve()
+        Promise.resolve()
          .then(function(){
-            return $.post('isFollow', {followId : followUserID});
+           // return $.post('isFollow', {followId : followUserID});
+            return $.post('/server/server.php', 'type=isFollow' + '&followid=' + followUserID);
           })
           // Display as following wehn
-        .then(function(result){
-          if(result)
+        .then(function(response){
+          if(response.result)
           {
              $('#' + followButtonID).html('Following');
           }
-        })*/
+        })
       }
     </script>
   </head>
