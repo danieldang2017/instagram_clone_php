@@ -21777,3 +21777,6 @@ Stack trace:
 #0 /home/ubuntu/workspace/server/getPostsContent.php(6): PDOStatement->execute()
 #1 {main}
   thrown in /home/ubuntu/workspace/server/getPostsContent.php on line 6
+[24-Sep-2017 02:30:36 UTC] PHP Fatal error:  main(): Cannot write property in /home/ubuntu/workspace/server/server.php on line 28
+[24-Sep-2017 02:30:36 UTC] PHP Stack trace:
+[24-Sep-2017 02:30:36 UTC] PHP   1. {main}() /home/ubuntu/workspace/server/server.php:0

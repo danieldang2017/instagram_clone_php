@@ -210,7 +210,8 @@ Duncan Robertson. Student number: 8074833 -->
         .then(function(){
               //here we pass the ID to the incrLike route on the server side so it can do the incrementing for us
               //note the return. This MUST be here, or the subsequent then will not wait for this to complete
-              return $.post('incrLike', {id : id});
+            //  return $.post('/server/server.php', {id : id});
+             return $.post('/server/server.php', 'type=increLike' + '&id=' + id);
           })
           .then(function(like){
               if (like.count > 0)
@@ -237,10 +238,10 @@ Duncan Robertson. Student number: 8074833 -->
       {
         Promise.resolve()
         .then(function(){
-        return $.post('isLike', {id : postID});
+        return $.post('/server/server.php', 'type=isLike' + '&id=' + postID);
           })
-        .then(function(result){
-          if(result)
+        .then(function(resonse){
+          if(resonse.result)
           {
             console.log("true")
              $('#' + likeIconID).attr("src","../img/icons/Like.png");
