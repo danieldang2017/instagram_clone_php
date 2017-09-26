@@ -1,39 +1,37 @@
+
+
+
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
+
+ use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 require_once "vendor/autoload.php";
 
 //PHPMailer Object
-$mail = new PHPMailer(true);
+ $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+ 
+   //Server settings
+            $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAutoTLS = false;
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'recievewebdesign@gmail.com';                 // SMTP username
+            $mail->Password = 'recievewebdesign123@';                           // SMTP password
+            $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 465;                                    // TCP port to connect to
+        
+            //Recipients
+            $mail->setFrom('recievewebdesign@gmail.com', 'Instagram');
+            $mail->addAddress($resetEmail);     // Add a recipient
+        
+            //Content
+           // $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = 'Subject';
+           
+            $mail->Body  = "Body";
+            
 
-//From email address and name
-$mail->From = "recievewebdesign@gmail.com";
-$mail->FromName = "Instagram";
-
-//To address and name
-$mail->addAddress("hieutrantvvn2006@gmail.com", "Recepient Name");
-//$mail->addAddress("recepient1@example.com"); //Recipient name is optional
-
-//Address to which recipient will reply
-$mail->addReplyTo("reply@Instagram.com", "Reply");
-
-//CC and BCC
-//$mail->addCC("cc@example.com");
-//$mail->addBCC("bcc@example.com");
-
-//Send HTML or Plain Text email
-$mail->isHTML(true);
-
-$mail->Subject = "Subject Text";
-$mail->Body = "<i>Mail body in HTML</i>";
-$mail->AltBody = "This is the plain text version of the email content";
-
-if(!$mail->send()) 
-{
-    echo "Mailer Error: " . $mail->ErrorInfo;
-} 
-else 
-{
-    echo "Message has been sent successfully";
-}
 
 ?>

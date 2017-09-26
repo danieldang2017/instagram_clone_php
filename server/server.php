@@ -1,6 +1,9 @@
 <?php
    include("config.php");
+   include("hash.php");
    session_start();
+   use PHPMailer\PHPMailer\PHPMailer;
+   use PHPMailer\PHPMailer\Exception;
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
      
@@ -157,7 +160,88 @@
                   echo json_encode($jsonAnswer);
             }
       }
-   }
-  
+      
+      else if ($type == 'sendEmail')
+      {
 
+    //Load composer's autoloader
+    require __DIR__.'/vendor/autoload.php';
+    $resetEmail = mysqli_real_escape_string($db,$_POST['email']); 
+    $resetPass = mysqli_real_escape_string($db,$_POST['password']); 
+   
+   // Check email exist
+      $sql = "select * from Users where email = '$resetEmail'";
+      $result = mysqli_query($db,$sql);
+      $row = $result->fetch_assoc();
+      $firstNameReset = $row["firstName"];
+      $lastNameReset = $row["lastName"];
+      $userIDReset = $row["ID"];
+      if ($result->num_rows > 0) {
+        
+        $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+        //Hash and save password
+        $secrectPass = hashString($resetPass);
+       
+        // Save new password to temp reset table
+       $sql = "insert into PasswordRecoveries( user, oldpassword ,password, expirationDate) values ($userIDReset, '$resetPass' , '$secrectPass' , DATE_ADD(now(), INTERVAL 1 DAY));";
+       $result = mysqli_query($db,$sql);
+       // GetID back
+       $sql = "select * from PasswordRecoveries where user = '$userIDReset' and password = '$secrectPass'";
+       $result = mysqli_query($db,$sql);
+       $row = $result->fetch_assoc();
+       $ResetID = $row["ID"];
+       // Update verify ID
+       $verifyID = $ResetID . $secrectPass;
+       $sql = "update PasswordRecoveries set verifyID = '$verifyID' where ID = $ResetID";
+       $result = mysqli_query($db,$sql);
+
+        try {
+            //Server settings
+            $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAutoTLS = false;
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'recievewebdesign@gmail.com';                 // SMTP username
+            $mail->Password = 'recievewebdesign123@';                           // SMTP password
+            $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 465;                                    // TCP port to connect to
+        
+            //Recipients
+            $mail->setFrom('recievewebdesign@gmail.com', 'Instagram');
+            $mail->addAddress($resetEmail);     // Add a recipient
+        
+            //Content
+           // $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = 'Subject';
+           
+       //     $mail->AltBody = 'AltBody';
+       
+            $url =$_SERVER['HTTP_HOST'];
+            $emailBody = "Dear " . $firstNameReset . " ". $lastNameReset .","  . "\n \n";
+            $emailBody = $emailBody . "We have received a request to reset the password for this email. \n";
+            $emailBody = $emailBody . "Please click on the link below to confirm your new password. \n \n";
+            $emailBody = $emailBody . "https://" . $url . '/server/verifypassword.php?id=' . $verifyID;
+            $emailBody = $emailBody . "\n \n";
+            $emailBody = $emailBody . "Thank You! \n";
+            $emailBody = $emailBody . "Instagram Customer Service";
+            $mail->Body  = $emailBody;
+            if ($mail->send()){
+                 header( "Content-type: application/json" );
+                 $jsonAnswer = array('isValid' => true, 'message' =>  'Your Account has been reset! </br> Please check your email to confirm');
+                 echo json_encode($jsonAnswer);
+            }
+           } catch (Exception $e) {
+            header( "Content-type: application/json" );
+            $jsonAnswer = array('isValid' => false, 'message' =>  'Message could not be sent. Please contact administrator');
+            echo json_encode($jsonAnswer);
+        }
+      }
+      else {
+            header( "Content-type: application/json" );
+            $jsonAnswer = array('isValid' => false, 'message' =>  'Email is not correct');
+            echo json_encode($jsonAnswer);
+      }
+      }
+   }
 ?>
