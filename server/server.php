@@ -183,7 +183,7 @@
         $secrectPass = hashString($resetPass);
        
         // Save new password to temp reset table
-       $sql = "insert into PasswordRecoveries( user, oldpassword ,password, expirationDate) values ($userIDReset, '$resetPass' , '$secrectPass' , DATE_ADD(now(), INTERVAL 1 DAY));";
+       $sql = "insert into PasswordRecoveries( user ,password, expirationDate) values ($userIDReset, '$secrectPass' , DATE_ADD(now(), INTERVAL 1 DAY));";
        $result = mysqli_query($db,$sql);
        // GetID back
        $sql = "select * from PasswordRecoveries where user = '$userIDReset' and password = '$secrectPass'";
