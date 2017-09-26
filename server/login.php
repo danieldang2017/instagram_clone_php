@@ -18,14 +18,6 @@
         $row = $result->fetch_assoc();
         $secrectPass = $row["password"];
         
-        //
-            $pa = $mypassword;
-            $sa = hashString($pa);
-            $Check = hashCheckPassword($pa, $sa);
-            $a = 0;
-        //
-        
-        
         $passwordCheck = hashCheckPassword($mypassword, $secrectPass);
         if ($passwordCheck){
              $_SESSION['login_user'] =  $myemail;
