@@ -1,7 +1,11 @@
 <?php
     session_start();
+     if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(session_destroy()) {
-      $url = "https://" . $_SERVER['HTTP_HOST'] . "/client/views/loginAndRegistration.html";
-      header("Location: $url");
+           header( "Content-type: application/json" );
+           $jsonAnswer = array('result' => true);
+           echo json_encode($jsonAnswer);
+  
    }
+     }
 ?>

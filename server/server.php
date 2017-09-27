@@ -192,6 +192,7 @@
        $ResetID = $row["ID"];
        // Update verify ID
        $verifyID = $ResetID . $secrectPass;
+       $verifyID =  str_replace(".","",$verifyID); 
        $sql = "update PasswordRecoveries set verifyID = '$verifyID' where ID = $ResetID";
        $result = mysqli_query($db,$sql);
 

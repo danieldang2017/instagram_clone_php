@@ -17,7 +17,16 @@
 <script>
   /*global $*/
   $('#logout').click( () => {
-    $.post('/server/logout.php');
+         Promise.resolve()
+         .then(function(){
+            return $.post('/server/logout.php');
+          })
+          .then(function(response){
+          if(response.result)
+          {
+              window.location.replace('/client/views/loginAndRegistration.html');
+          }
+        })
   });
   
   $('#home').click( () => {
