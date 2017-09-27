@@ -4,7 +4,7 @@
   <img src="../img/logo/logo_img3.png" alt="Brand">
 </div>
 <div class="header_center">
-  <form action=" " onsubmit="return false;" id="search"><input id="searchBox" placeholder="Search" value="" type="text" alt="Search box"></form>
+  <form action="/server/searchProfile2.php" id="search" method="POST"><input id="searchBox" name="user" placeholder="Search" value="" type="text" alt="Search box"></form>
     
   
 </div>
@@ -21,22 +21,10 @@
   });
   
   $('#home').click( () => {
-    window.location.replace('/');
+    window.location.replace('/client/views/index.html');
   });
   
-  $('#search').submit( () => {
-    $.post('/searchUser', {user: $('#searchBox').val()})
-    .done((user) => {
-      if(user)
-      {
-      window.location.replace('/postList?id=' + user._id);
-      } else {
-        window.location.replace('/error?e=userNotFound');
-      }
-    })
-  })
-  
   $('#upload').click( () => {
-    window.location.replace('/upload' );
+    window.location.replace('/client/views/upload.html' );
   });
 </script>

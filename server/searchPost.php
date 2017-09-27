@@ -1,7 +1,7 @@
 <?php
     include("connectToServer.php");
-    
-    $sqlQuery = $mySQLConnection->prepare("SELECT * FROM Users ORDER BY followersCount DESC LIMIT 3");
+    $id = $_POST['id'];
+    $sqlQuery = $mySQLConnection->prepare("SELECT * FROM Posts WHERE ID = $id");
     $sqlQuery->execute();
     
     $response = $sqlQuery->fetchAll();

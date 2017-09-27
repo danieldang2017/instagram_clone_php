@@ -33,11 +33,11 @@ Duncan Robertson. Student number: 8074833 -->
 				// Settings ////////////////////////////////////////////////
 				var uploader = new plupload.Uploader({
 					runtimes : 'html5, flash', // Set runtimes, here it will use HTML5, if not supported will use flash, etc.
-					url : '/createPost',
+					url : '/server/upload.php',
 					browse_button : 'pickfiles', // The id on the select files button
 					multi_selection: false, // Allow to select one file each time
 					container : 'uploader', // The id of the upload form container
-					max_file_size : '1024kb', // Maximum file size allowed
+					max_file_size : '10240kb', // Maximum file size allowed
 					filters : [ {title : ".JPG", extensions : "jpg, JPG"}, {title : ".PNG", extensions : "png, PNG"} ] // Filter the files that will be showed on the select files window
 				});
 	
@@ -59,21 +59,7 @@ Duncan Robertson. Student number: 8074833 -->
 				uploader.init(); // Initializes the Uploader instance and adds internal event listeners.
 				
 				uploader.bind('FileUploaded', (dir, file, obj) => {
-					var response;
-					try {
-						response = eval(obj.response);
-					} catch (err) {
-						response = eval('(' + obj.response + ')');
-					}
-					if(response.success) {
-						$('#msgBox').css('color', 'green').html(response.success);
-						$.post('/updatePostsCount', {id: response.user})
-					    .done((user) => {
-					      window.location.replace('/postList?id=' + user._id);
-					    })
-					} else {
-						$('#msgBox').css('color', 'red').html(response.error);
-					}
+					window.location.replace('/client/views/postList.html?id=' + obj.response);
 				})
 				// Selected Files //////////////////////////////////////////
 				// When the user select a file it wiil append one div with the class "addedFile" and a unique id to the "#filelist" div.
@@ -91,14 +77,6 @@ Duncan Robertson. Student number: 8074833 -->
 				uploader.bind('Error', function(up, err) {
 					alert("Error: " + err.code + ", Message: " + err.message + (err.file ? ", File: " + err.file.name : "") + "");
 					up.refresh(); // Reposition Flash
-				});
-	
-				// Remove file button //////////////////////////////////////
-				// On click remove the file from the queue
-				$('a.removeFile').live('click', function(e) {
-					uploader.removeFile(uploader.getFile(this.id));
-					$('#'+this.id).remove();
-					e.preventDefault();
 				});
 	
 				// Progress bar ////////////////////////////////////////////
