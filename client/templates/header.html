@@ -17,10 +17,7 @@
 <script>
   /*global $*/
   $('#logout').click( () => {
-    $.post('/logout')
-    .done( () => {
-      window.location.replace('/login');
-    });
+    $.post('/server/logout.php');
   });
   
   $('#home').click( () => {

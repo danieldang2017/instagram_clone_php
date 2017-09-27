@@ -1,6 +1,7 @@
 <?php
     session_start();
     if(session_destroy()) {
-       header("location:/client/client/view/loginAndRegistration.html");
+      $url = "https://" . $_SERVER['HTTP_HOST'] . "/client/views/loginAndRegistration.html";
+      header("Location: $url");
    }
 ?>
