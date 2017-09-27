@@ -38,7 +38,7 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
               })
              .then(function(auth){
                   if (auth.isValid){
-                      window.location.replace('welcome.html');
+                      window.location.replace('index.html');
                   } else {
                     $('#error').html('Invalid email or password!');
                   }
@@ -89,7 +89,7 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
                      .done( (auth) => {
                           if(auth.isValid) {
                           $('#registerSuccess').append('Proceeding to site')
-                          setTimeout(window.location.replace('welcome.html'), 3000);
+                          setTimeout(window.location.replace('index.html'), 3000);
                           }
                       })
                    }

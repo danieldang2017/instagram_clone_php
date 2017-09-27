@@ -1,5 +1,6 @@
 <?php
 include("connectToServer.php");
+ session_start();
 try {
    
     // Undefined | Multiple Files | $_FILES Corruption Attack
@@ -22,11 +23,6 @@ try {
             throw new RuntimeException('Exceeded filesize limit.');
         default:
             throw new RuntimeException('Unknown errors.');
-    }
-
-    // You should also check filesize here.
-    if ($_FILES['file']['size'] > 10240) {
-        throw new RuntimeException('Exceeded filesize limit.');
     }
 
     // DO NOT TRUST $_FILES['file']['mime'] VALUE !!
@@ -53,8 +49,6 @@ try {
         throw new RuntimeException('Failed to move uploaded file.');
     }
     
-    //for testing purpose only
-    $_SESSION['login_user'] = 'hieutrantvvn2006@gmail.com';
     
     $sqlQuery = $mySQLConnection->prepare("SELECT ID FROM Users WHERE email = '".$_SESSION['login_user']."' LIMIT 1");
     $sqlQuery->execute();

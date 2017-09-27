@@ -21,6 +21,7 @@
         $passwordCheck = hashCheckPassword($mypassword, $secrectPass);
         if ($passwordCheck){
              $_SESSION['login_user'] =  $myemail;
+             $mysession =  $_SESSION['login_user'] ;
             header( "Content-type: application/json" );
             $jsonAnswer = array('isValid' => true);
             echo json_encode($jsonAnswer);
@@ -67,7 +68,7 @@
                 }
                 else {
                     // Insert new user into database
-                   $sql = "INSERT INTO Users ( displayName, userName, email, password, imageProfile, firstName, lastName , createdDate) values ('$displayName', '$username', '$email', '$secrectPass', 'profile', '$firstName', '$lastName', now())";
+                   $sql = "INSERT INTO Users ( displayName, userName, email, password, imageProfile, firstName, lastName , createdDate) values ('$displayName', '$username', '$email', '$secrectPass', 'instagram.jpg', '$firstName', '$lastName', now())";
                    $result = mysqli_query($db,$sql);
                    if($result)
                    {

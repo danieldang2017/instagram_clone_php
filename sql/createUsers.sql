@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Users (
 	imageProfile VARCHAR(50) ,
 	firstName VARCHAR(50) NOT NULL,
 	lastName VARCHAR(50) NOT NULL,
-	postsCount INT DEFAULT 8,
+	postsCount INT DEFAULT 0,
 	followersCount INT DEFAULT 0,
 	followingCount INT DEFAULT 0,
 	createdDate DATETIME NOT NULL

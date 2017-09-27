@@ -32,7 +32,6 @@ Duncan Robertson. Student number: 8074833 -->
     /*global $*/
       // Function to load the contents of the page
       function loadPage() {
-        
         Promise.resolve()
         .then(() => {
           return $.post('/server/getUserProfile.php');
@@ -179,15 +178,15 @@ Duncan Robertson. Student number: 8074833 -->
         })
         .then((posts) => {
           var postsContent = posts;
-          if(!postsContent)
+          if(postsContent.length == 0)
           {
             $('#postContainer' + id).addClass('hide');
           } else {
+            $("#link" + id + j).attr('href', '/client/views/postDetails.html?id=' + postsContent[j].ID);
             if(check)
             {
               id = '0' + id;
             } 
-            $("#link" + id + j).attr('href', '/client/views/postDetails.html?id=' + postsContent[j].ID);
             $('#thumbnail' + id + j).attr("src","../img/instagram_img/" + postsContent[j].image);
            
             var postid = postsContent[j].ID;

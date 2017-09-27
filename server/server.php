@@ -12,8 +12,8 @@
       $FollowID = mysqli_real_escape_string($db,$_POST['followid']); 
    
       // Find User from session
-      // $user_check = $_SESSION['login_user']; // Update when haveing login
-      $user_check = "hieutrantvvn2006@gmail.com";
+       $user_check = $_SESSION['login_user']; // Update when haveing login
+     // $user_check = "hieutrantvvn2006@gmail.com";
      // get user ID
       $sql = "select * from Users where email= '$user_check'";
       $result = mysqli_query($db,$sql);
