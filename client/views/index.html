@@ -34,12 +34,12 @@ Duncan Robertson. Student number: 8074833 -->
       function loadPage() {
         
         Promise.resolve()
-        /*.then(() => {
-          return $.post('getUserProfile.php');
+        .then(() => {
+          return $.post('/server/getUserProfile.php');
         })
         .then((post) => {
           setUserProfile(post);
-        })*/
+        })
         .then(() => {
           return $.post('/server/getTopProfiles.php');
         })
@@ -50,7 +50,7 @@ Duncan Robertson. Student number: 8074833 -->
       
       // Function to set the user profile
       function setUserProfile(post){
-        var userProfile = post;
+        var userProfile = post[0];
         $('#displayName').html(userProfile.displayName);
         $('#profileImage').attr("src","../img/profile_img/" + userProfile.imageProfile);
         $('#postCount').html(userProfile.postsCount);

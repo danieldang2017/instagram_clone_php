@@ -1,5 +1,6 @@
 <?php
     include("connectToServer.php");
+    
     $sqlQuery = $mySQLConnection->prepare("SELECT * FROM Users ORDER BY followersCount DESC LIMIT 3");
     $sqlQuery->execute();
     
