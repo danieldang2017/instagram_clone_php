@@ -1,16 +1,19 @@
-<!-- Group information:
+<!-- 
+  Group information:
+  
+  Student 1:
+  
+  Tran Ngoc Phuong Dang (a.k.a Daniel). Student number: 7843618
+  
+  Student 2:
+  
+  Chi Hieu Tran (a.k.a Winson). Student number: 7822620
+  
+  Student 3:
+  
+  Saurav Bedi. Student number: 7832124 
+-->
 
-Student 1:
-
-Tran Ngoc Phuong Dang (a.k.a Daniel). Student number: 7843618
-
-Student 2:
-
-Chi Hieu Tran (a.k.a Winson). Student number: 7822620
-
-Student 3:
-
-Duncan Robertson. Student number: 8074833 -->
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -30,7 +33,7 @@ Duncan Robertson. Student number: 8074833 -->
 			
 			// Upload Form
 			$(function() {
-				// Settings ////////////////////////////////////////////////
+				// Settings 
 				var uploader = new plupload.Uploader({
 					runtimes : 'html5, flash', // Set runtimes, here it will use HTML5, if not supported will use flash, etc.
 					url : '/server/upload.php',
@@ -46,8 +49,8 @@ Duncan Robertson. Student number: 8074833 -->
 					$('#runtime').text(params.runtime);
 				});
 	
-				// Start Upload ////////////////////////////////////////////
-				// When the button with the id "#uploadfiles" is clicked the upload will start
+				/* Start Upload 
+				   When the button with the id "#uploadfiles" is clicked the upload will start */
 				$('#uploadfiles').click(function(e) {
 					uploader.settings.multipart_params = { 
 						status: $('#status').val(),
@@ -61,9 +64,9 @@ Duncan Robertson. Student number: 8074833 -->
 				uploader.bind('FileUploaded', (dir, file, obj) => {
 					window.location.replace('/client/views/postList.html?id=' + obj.response);
 				})
-				// Selected Files //////////////////////////////////////////
-				// When the user select a file it wiil append one div with the class "addedFile" and a unique id to the "#filelist" div.
-				// This appended div will contain the file name and a remove button
+				/* Selected Files 
+				  When the user select a file it will append one div with the class "addedFile" and a unique id to the "#filelist" div.
+				  This appended div will contain the file name and a remove button */
 				uploader.bind('FilesAdded', function(up, files) {
 					$.each(files, function(i, file) {
 						$('#filelist').append('<div class="addedFile" id="' + file.id + '">' + file.name + '<a href="#" id="' + file.id + '" class="removeFile"></a>' + '</div>');
@@ -71,17 +74,17 @@ Duncan Robertson. Student number: 8074833 -->
 					up.refresh(); // Reposition Flash
 				});
 	
-				// Error Alert /////////////////////////////////////////////
-				// If an error occurs an alert window will popup with the error code and error message.
-				// Ex: when a user adds a file with now allowed extension
+				/* Error Alert 
+				   If an error occurs an alert window will popup with the error code and error message.
+				   Ex: when a user adds a file with now allowed extension */
 				uploader.bind('Error', function(up, err) {
 					alert("Error: " + err.code + ", Message: " + err.message + (err.file ? ", File: " + err.file.name : "") + "");
 					up.refresh(); // Reposition Flash
 				});
 	
-				// Progress bar ////////////////////////////////////////////
-				// Add the progress bar when the upload starts
-				// Append the tooltip with the current percentage
+				/* Progress bar 
+				   Add the progress bar when the upload starts
+				   Append the tooltip with the current percentage */
 				uploader.bind('UploadProgress', function(up, file) {
 					var progressBarValue = up.total.percent;
 					$('#progressbar').fadeIn().progressbar({
@@ -90,8 +93,8 @@ Duncan Robertson. Student number: 8074833 -->
 					$('#progressbar .ui-progressbar-value').html('<span class="progressTooltip">' + up.total.percent + '%</span>');
 				});
 	
-				// Close window after upload ///////////////////////////////
-				// If checkbox is checked when the upload is complete it will close the window
+				/* Close window after upload 
+				   If checkbox is checked when the upload is complete it will close the window */
 				uploader.bind('UploadComplete', function() {
 					if ($('.upload-form #checkbox').attr('checked')) {
 						$('.upload-form').fadeOut('slow');

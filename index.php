@@ -4,10 +4,7 @@
         header('Location: ' . $url, true, $permanent ? 301 : 302);
         exit();
     }
+    
+    // Redirect to index page
     Redirect('/client/views/loginAndRegistration.html', false);
-    
-    /* Re-create database. Drop database c9 before using it. Should only use once at the beginning.
-    Redirect('/server/initializeDatabase.php', false);
-    */
-    
 ?>

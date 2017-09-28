@@ -1,9 +1,18 @@
-<!-- Group information:
-
-Student 1:Tran Ngoc Phuong Dang (a.k.a Daniel). Student number: 7843618
-Student 2:Chi Hieu Tran (a.k.a Winson). Student number: 7822620
-Student 3:Duncan Robertson. Student number: 8074833 -->
-
+<!-- 
+  Group information:
+  
+  Student 1:
+  
+  Tran Ngoc Phuong Dang (a.k.a Daniel). Student number: 7843618
+  
+  Student 2:
+  
+  Chi Hieu Tran (a.k.a Winson). Student number: 7822620
+  
+  Student 3:
+  
+  Saurav Bedi. Student number: 7832124 
+-->
 
 <!DOCTYPE html>
   <head>
@@ -21,27 +30,27 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
     <script>
         /*global $*/
         $(document).ready( ()=> {
-        $('#login').submit( ()=> {
-          $('#error').html('');
+          $('#login').submit( ()=> {
+            $('#error').html('');
           
-          var email = $('#email').val();
-          var password = $('#password').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
           
-          if(password.length < 6){
-             var errorMessage = "Password must be logner than 6 characters";
+            if(password.length < 6) {
+              var errorMessage = "Password must be logner than 6 characters";
               $('#error').html(errorMessage);
-          }
-          else if (email.length > 0 && password.length > 0){
+            }
+            else if (email.length > 0 && password.length > 0){
               Promise.resolve()
-              .then(function(){
-                  return $.post('/server/login.php', 'type=signin' + '&email=' + email + '&password=' + password);
+              .then(function() {
+                return $.post('/server/login.php', 'type=signin' + '&email=' + email + '&password=' + password);
               })
-             .then(function(auth){
-                  if (auth.isValid){
-                      window.location.replace('index.html');
-                  } else {
-                    $('#error').html('Invalid email or password!');
-                  }
+             .then(function(auth) {
+                if (auth.isValid) {
+                  window.location.replace('index.html');
+                } else {
+                  $('#error').html('Invalid email or password!');
+                }
               })
             }
           });
@@ -57,49 +66,44 @@ Student 3:Duncan Robertson. Student number: 8074833 -->
             var emailField = $('#emailsignup').val();
             var passwordField = $('#passwordsignup').val();
             var passwordConfirmField = $('#passwordsignup_confirm').val();
-            
 
-            if (passwordField !== passwordConfirmField){
+            if (passwordField !== passwordConfirmField) {
               var errorMessage = "Confirm password does not match password";
               $('#generalErr').html(errorMessage);
-            }
-            else if (passwordField.length < 6){
+            } else if (passwordField.length < 6) {
               var errorMessage = "Password must be logner than 6 characters";
               $('#generalErr').html(errorMessage);
-            }
-            else{
+            } else {
               Promise.resolve()
-               .then(function(){
-                    return $.post('/server/login.php', 
-                   'type=register' + 
-                   '&displayName=' + firstNameField+ ' ' + lastNameField + 
-                   '&firstName=' + firstNameField +  
-                   '&lastName=' + lastNameField + 
-                   '&username=' + usernameField + 
-                   '&email=' + emailField + 
-                   '&password=' +  passwordField
-                   );
-              })
-               .then(function(auth){
+              .then(function() {
+                  return $.post('/server/login.php', 
+                 'type=register' + 
+                 '&displayName=' + firstNameField+ ' ' + lastNameField + 
+                 '&firstName=' + firstNameField +  
+                 '&lastName=' + lastNameField + 
+                 '&username=' + usernameField + 
+                 '&email=' + emailField + 
+                 '&password=' +  passwordField
+              );
+            })
+            .then(function(auth){
+                $('#generalErr').html(auth.message);
+                if (auth.isValid) {
+                  $('#toggle').addClass('hide');
+                  $('#registerSuccess').html('Account created successfully!<br>');
+                  $.post('/server/login.php', 'type=signin' + '&email=' + emailField + '&password=' + passwordField)
+                  .done( (auth) => {
+                    if(auth.isValid) {
+                      $('#registerSuccess').append('Proceeding to site')
+                      setTimeout(window.location.replace('index.html'), 3000);
+                    }
+                  })
+                }
+                else {
                   $('#generalErr').html(auth.message);
-                   if (auth.isValid){
-                      $('#toggle').addClass('hide');
-                      $('#registerSuccess').html('Account created successfully!<br>');
-                      $.post('/server/login.php', 'type=signin' + '&email=' + emailField + '&password=' + passwordField)
-                     .done( (auth) => {
-                          if(auth.isValid) {
-                          $('#registerSuccess').append('Proceeding to site')
-                          setTimeout(window.location.replace('index.html'), 3000);
-                          }
-                      })
-                   }
-                   else
-                   {
-                     $('#generalErr').html(auth.message);
-                   }
-               })
+                }
+              })
             }
-     
           });
         });
     </script>

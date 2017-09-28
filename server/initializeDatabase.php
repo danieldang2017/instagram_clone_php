@@ -19,5 +19,4 @@
     $mySQLConnection->exec($sqlQuery);
     $sqlQuery = file_get_contents('../sql/populatePosts.sql');
     $mySQLConnection->exec($sqlQuery);
-    
 ?>

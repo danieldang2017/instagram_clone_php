@@ -1,16 +1,18 @@
-<!-- Group information:
-
-Student 1:
-
-Tran Ngoc Phuong Dang (a.k.a Daniel). Student number: 7843618
-
-Student 2:
-
-Chi Hieu Tran (a.k.a Winson). Student number: 7822620
-
-Student 3:
-
-Duncan Robertson. Student number: 8074833 -->
+<!-- 
+  Group information:
+  
+  Student 1:
+  
+  Tran Ngoc Phuong Dang (a.k.a Daniel). Student number: 7843618
+  
+  Student 2:
+  
+  Chi Hieu Tran (a.k.a Winson). Student number: 7822620
+  
+  Student 3:
+  
+  Saurav Bedi. Student number: 7832124 
+-->
 
 <!DOCTYPE html>
   <head>
@@ -21,23 +23,23 @@ Duncan Robertson. Student number: 8074833 -->
     <link rel="stylesheet" type="text/css" href="../css/login2.css" />
     <link rel="stylesheet" type="text/css" href="../css/loginAnimation.css" />
     
-    <!-- Adds JQuery -->
+    <!-- Add JQuery -->
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script>
-     function loadPage(){
-       var msg = '';
-       var error = window.location.href.split("=")[1];
-       if (error == "passwordExpired") {
+      function loadPage(){
+        var msg = '';
+        var error = window.location.href.split("=")[1];
+        if (error == "passwordExpired") {
          msg += 'This password has expired!'
-       } else if (error == "invalidVerification") {
+        } else if (error == "invalidVerification") {
          msg += 'This verification is invalid!'
-       } else if (error == "userNotFound") {
+        } else if (error == "userNotFound") {
          msg += 'User not found!'
-       } else {
+        } else {
          msg += 'Failed to reset your password!'
-       }
-       $('#error').html(msg);
-     }
+        }
+        $('#error').html(msg);
+      }
     </script>
   </head>
   <body onload="loadPage();">
