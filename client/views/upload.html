@@ -29,15 +29,53 @@
 		<script src="../js/jquery-progressbar.min.js"></script>
 		
 		<!-- Adds Moon -->
-    	<script src="https://unpkg.com/moonjs"></script>
-    
-		<script>
-			/* global $ */
-			/* global plupload */
+    	<script src="https://unpkg.com/moonjs/dist/moon.js"></script>
+	
+		<!-- Styles -->
+		<style type="text/css">
+			html, body { margin: 0;	padding: 0; }
+			body { background: #ffffff no-repeat top center; padding-top: 265px; }
+			#uploader { margin: 0 auto; }
+			.info { text-align: center; padding: 50px 0; color: #666; font-family: Helvetica, Arial, sans-serif; }
+			#runtime { text-transform: uppercase; }
+			.info span { color: #81c468; }
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div id="msgBox"></div>
+			<div class="upload-form" id="uploader">
 			
-			// Upload Form
-			$(function() {
-				// Settings 
+				<!-- Form Heading -->
+				<h1 class="replace-text">Post a new photo</h1>
+				<p>Please choose a photo to upload</p>
+				<textarea rows="4" cols="10" placeholder="Status" id="status"></textarea>
+				<input name="hashtag" required="required" type="text" placeholder="Hashtag" id="hashtag"/>
+			
+				<!-- Select & Upload Button -->
+				<div>
+					<a class="button" id="pickfiles" href="#">Select</a>
+					<a class="button" id="uploadfiles" href="#">Upload</a>
+				</div>
+			
+				<!-- File List -->
+				<div id="filelist" class="cb"></div>
+			
+				<!-- Progress Bar -->
+				<div id="progressbar"></div>
+			</div>
+			<div class="info">Max File Size <span>1MB</span> | Only <span>Images</span> Allowed | Using <span id="runtime"></span></div>
+		</div>
+		<script>
+	      /*global Moon*/
+	      /*global $*/
+	      const app = new Moon({
+	        el: "#main",
+	        data: {
+	        },
+	        methods: {
+	          upload: function() {
+	            // Settings 
 				var uploader = new plupload.Uploader({
 					runtimes : 'html5, flash', // Set runtimes, here it will use HTML5, if not supported will use flash, etc.
 					url : '/server/upload.php',
@@ -104,41 +142,14 @@
 						$('.upload-form').fadeOut('slow');
 					}
 				});
+	          }
+	        }
+	      });
+	      
+	      // Upload Form
+			$(function() {
+				app.callMethod('upload');
 			}); // end of the upload form configuration
-		</script>
-	
-		<!-- Styles -->
-		<style type="text/css">
-			html, body { margin: 0;	padding: 0; }
-			body { background: #ffffff no-repeat top center; padding-top: 265px; }
-			#uploader { margin: 0 auto; }
-			.info { text-align: center; padding: 50px 0; color: #666; font-family: Helvetica, Arial, sans-serif; }
-			#runtime { text-transform: uppercase; }
-			.info span { color: #81c468; }
-		</style>
-	</head>
-	<body>
-		<div id="msgBox"></div>
-		<div class="upload-form" id="uploader">
-		
-			<!-- Form Heading -->
-			<h1 class="replace-text">Post a new photo</h1>
-			<p>Please choose a photo to upload</p>
-			<textarea rows="4" cols="10" placeholder="Status" id="status"></textarea>
-			<input name="hashtag" required="required" type="text" placeholder="Hashtag" id="hashtag"/>
-		
-			<!-- Select & Upload Button -->
-			<div>
-				<a class="button" id="pickfiles" href="#">Select</a>
-				<a class="button" id="uploadfiles" href="#">Upload</a>
-			</div>
-		
-			<!-- File List -->
-			<div id="filelist" class="cb"></div>
-		
-			<!-- Progress Bar -->
-			<div id="progressbar"></div>
-		</div>
-		<div class="info">Max File Size <span>1MB</span> | Only <span>Images</span> Allowed | Using <span id="runtime"></span></div>
+	    </script>
 	</body>
 </html>

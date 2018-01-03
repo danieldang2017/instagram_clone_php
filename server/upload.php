@@ -41,6 +41,7 @@
 
         // Obtain safe unique name from its binary data.
         $root = $_SERVER['DOCUMENT_ROOT'];
+        $fileName = sprintf('%s.%s', sha1_file($_FILES['file']['tmp_name']), $ext);
         $dir = sprintf('%s/client/img/instagram_img/%s.%s', $root, sha1_file($_FILES['file']['tmp_name']), $ext);
         if (!move_uploaded_file($_FILES['file']['tmp_name'],$dir)) {
             throw new RuntimeException('Failed to move uploaded file.');
@@ -53,7 +54,7 @@
         $ID = $row['ID'];
         
         // Insert a new Post into Posts table
-        $insertStatement = sprintf('INSERT INTO Posts(user, image, status, hashTag, createdDate) VALUES (%s, "%s", "%s", "%s", NOW())', $ID, $_FILES['file']['name'], $_POST['status'], $_POST['hashtag']);
+        $insertStatement = sprintf('INSERT INTO Posts(user, image, status, hashTag, createdDate) VALUES (%s, "%s", "%s", "%s", NOW())', $ID, $fileName, $_POST['status'], $_POST['hashtag']);
         $sqlQuery = $mySQLConnection->prepare($insertStatement);
         try {
             $sqlQuery->execute();

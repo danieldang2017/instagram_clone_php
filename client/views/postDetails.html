@@ -19,9 +19,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>Post details</title>
-    <link rel="icon" href="http://www.webdesignerdepot.com/favicon.ico">
+    <link rel="icon" href="https://www.webdesignerdepot.com/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../css/postDetails.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Wellfleet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Wellfleet">
     <!-- Adds CSS -->
     <link href="../css/instagramClone.css" rel="stylesheet" type="text/css">
       
@@ -29,22 +29,51 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     
     <!-- Adds Moon -->
-    <script src="https://unpkg.com/moonjs"></script>
-    
-    <script>
-      /*global $*/
-      function loadPage() {
-        var id = window.location.href.split("=")[1];
-        Promise.resolve()
-        .then(() => {
-          return $.post('/server/searchPost.php', {id: id});
-        })
-        .then((post) => {
-          setPostContent(post);
-        })
-          
-        function setPostContent(post) {
-          var postContent = post[0];
+  	<script src="https://unpkg.com/moonjs"></script>
+  </head>
+
+<body>
+  <div id="main">
+    <div id="w">
+      <div class="buffer">
+        <div id="header">
+          <h1><a id="status"></a></h1>
+          <h3><a id="hashTag"></a></h3>
+        </div>
+      </div>
+      <div id="imageContent">
+        <img id="image" src="">
+      </div>
+      
+      <div class="buffer">
+        <div id="stats">
+          <h2>
+            <img src="../img/icons/icon2.png" id="like"  height="15px" alt="Likes"> <a id="likeCount"></a>
+            <img style="margin-left:20px;" src="../img/icons/icon5.png" id="feedback"  height="15px" alt="Feedbacks"> <a id="feedbackCount"></a>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    /*global Moon*/
+    /*global $*/
+    const app = new Moon({
+      el: "#main",
+      data: {
+      },
+      methods: {
+        loadPage: function() {
+          var id = window.location.href.split("=")[1];
+          Promise.resolve()
+          .then(() => {
+            return $.post('/server/searchPost.php', {id: id});
+          })
+          .then((post) => {
+            setPostContent(post[0]);
+          })
+        },
+        setPostContent: function(postContent) {
           $('#status').html(postContent.status);
           $('#hashTag').html(postContent.hashTag);
           $('#image').attr("src","../img/instagram_img/" + postContent.image);
@@ -52,29 +81,14 @@
           $('#feedbackCount').html(postContent.feedbackCount);
         }
       }
-      </script>
-  </head>
-
-<body onload="loadPage();">
-  <div id="w">
-    <div class="buffer">
-      <div id="header">
-        <h1><a id="status"></a></h1>
-        <h3><a id="hashTag"></a></h3>
-      </div>
-    </div>
-    <div id="imageContent">
-      <img id="image" src="">
-    </div>
+    });
     
-    <div class="buffer">
-      <div id="stats">
-        <h2>
-          <img src="../img/icons/icon2.png" id="like"  height="15px" alt="Likes"> <a id="likeCount"></a>
-          <img style="margin-left:20px;" src="../img/icons/icon5.png" id="feedback"  height="15px" alt="Feedbacks"> <a id="feedbackCount"></a>
-        </h2>
-      </div>
-    </div>
-  </div>
+    // Load the contents of the page
+    app.callMethod('loadPage');
+      
+    function setPostContent(post) {
+      app.callMethod('setPostContent', [post]);
+    }
+  </script>
 </body>
 </html>
